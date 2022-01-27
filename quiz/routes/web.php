@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,6 @@ Route::group(
         'prefix' => 'admin'
     ],
     function () {
-        Route::get('deneme', function () {
-            return "denedik";
-        });
+        Route::resource('quizzes',QuizController::class);
     }
 );
