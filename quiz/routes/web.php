@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::middleware(['auth', 'verified'])->get('/panel', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -28,6 +26,7 @@ Route::group(
         'prefix' => 'admin'
     ],
     function () {
+        Route::get("quizzes/{id}",[QuizController::class,"delete"])->whereNumber('id')->name("quizzes.delete");
         Route::resource('quizzes',QuizController::class);
     }
 );
