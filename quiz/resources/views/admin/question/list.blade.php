@@ -2,9 +2,7 @@
     <x-slot name="header">
         {{ $quiz->title }} Testine Ait Sorular
     </x-slot>
-
     <x-slot name="slot">
-
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">
