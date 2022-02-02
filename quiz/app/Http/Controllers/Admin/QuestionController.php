@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionCreateRequest;
+use App\Http\Requests\QuestionUpdateRequest;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -81,9 +82,10 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($quiz_id,$question_id)
     {
-        //
+        $question = Quiz::find($quiz_id)->question()->find($question_id) ?? abort(404 ,"Quiz Veya Soru Bulunamadı.");
+        return view("admin.question.edit",compact("question"));
     }
 
     /**
@@ -93,9 +95,30 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionUpdateRequest $request, $quiz_id,$question_id)
     {
-        //
+        //Resim Request ile geldiyse
+        if ($request->hasFile("image")) {
+            
+            //Resim adınız slug ile temzileyip alıyoruz ve extension ile birleştiriyoruz.
+            $fileName= Str::slug($request->question).".".$request->image->extension();
+            
+            //Resim yolunu beliritiyoruz veritabanı için.
+            $fileNameWithUpload = "uploads/".$fileName;
+
+            //Resim yolunu beliritiyoruz veritabanı için.
+            $request->image->move(public_path('uploads'),$fileName);
+        
+            $request->merge([
+                "image" => $fileNameWithUpload
+            ]);
+        }
+        $quiz = Quiz::find($quiz_id);
+
+        //Request post diyince çalışıyor.
+        // $quiz->question()->create($request->all());
+        $quiz->question()->find($question_id)->update($request->post());
+        return redirect()->route("questions.index",$quiz_id)->withSuccess("Soru başarıyla güncellendi .");
     }
 
     /**
