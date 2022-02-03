@@ -15,20 +15,28 @@
                         <input type="text" name="title" class="form-control" value="{{ $quiz->title }}">
                     </div>
                     <div class="form-group">
-
                         <label>Quiz Açıklama</label>
                         <textarea type="text" name="description" class="form-control"
                             rows="4">{{ $quiz->description }}</textarea>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" id="isFinished" @if ($quiz->finished !== null)checked @endif> Bitiş Tarihi Olacak Mı ?
+                        <label>Quiz Durumu</label>
+                        <select name="status" class="form-control">
+                            <option @if ($quiz->question_count < 4) disabled @endif @if ($quiz->status == 'publish') selected @endif value="publish">Aktif</option>
+                            <option @if ($quiz->status == 'passive') selected @endif value="passive">Pasif</option>
+                            <option @if ($quiz->status == 'draft') selected @endif value="draft">Taslak</option>
+                        </select>
                     </div>
-                    <div id="finished_atInput" @if ($quiz->finished == null)style="display: none;" @endif class="form-group">
+                    <div class="form-group">
+                        <input type="checkbox" id="isFinished" @if ($quiz->finished !== null)checked @endif> Bitiş
+                        Tarihi Olacak Mı ?
+                    </div>
+                    <div id="finished_atInput" @if ($quiz->finished == null)style="display: none;" @endif
+                        class="form-group">
                         <label>Bitiş Tarihi</label>
-                        <input type="datetime-local" name="finished" class="form-control"
-                            @if ($quiz->finished)
-                            value="{{ date('Y-m-d\TH:i', strtotime($quiz->finished)) }}"
-                            @endif>
+                        <input type="datetime-local" name="finished" class="form-control" @if ($quiz->finished)
+                        value="{{ date('Y-m-d\TH:i', strtotime($quiz->finished)) }}"
+                        @endif>
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-sm btn-success btn-block mt-2" value="KAYDET" required>

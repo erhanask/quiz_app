@@ -131,4 +131,14 @@ class QuestionController extends Controller
     {
         //
     }
+
+
+    public function delete($quiz_id ,$question_id)
+    {
+
+        $quiz = Quiz::find($quiz_id) ?? abort(404,"Quiz Bulunamadı.");
+        $quiz->question()->find($question_id)->delete();
+        return redirect()->route("questions.index",$quiz_id)->withSuccess("Soru Başarıyla Silindi.");
+
+    }
 }

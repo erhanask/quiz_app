@@ -28,6 +28,7 @@ Route::group(
     ],
     function () {
         Route::get("quizzes/{id}",[QuizController::class,"delete"])->whereNumber('id')->name("quizzes.delete");
+        Route::get("quiz/{quiz_id}/questions/{id}",[QuestionController::class,"delete"])->whereNumber('id')->name("questions.delete");
         Route::resource('quizzes',QuizController::class);
         Route::resource("quiz/{quiz_id}/questions",QuestionController::class);
 

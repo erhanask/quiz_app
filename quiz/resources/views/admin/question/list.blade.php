@@ -42,7 +42,7 @@
                                         <td>
                                             <a href="{{ route('questions.edit', [$quiz->id,$question->id]) }}"
                                                 class="btn btn-sm btn-primary"><i class="fa fa-pen"></i></a>
-                                            <a href="{{ route('quizzes.delete', $question->id) }}"
+                                            <a href="{{ route('questions.delete', [$quiz->id,$question->id]) }}"
                                                 class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a>
                                         </td>
                                     </tr>
