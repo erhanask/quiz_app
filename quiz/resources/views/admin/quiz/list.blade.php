@@ -8,9 +8,30 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">
-                    <a href="{{ route('quizzes.create') }}" class="btn btn-primary">
+                    <a href="{{ route('quizzes.create') }}" class="btn btn-primary" style="float: right;">
                         <i class="fas fa-plus"></i> Quiz Oluştur
                     </a>
+                    <form action="" method="GET">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input type="text" value="{{request()->get('title')}}" name="title" placeholder="Quiz Adı">
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                                <select name="status" onchange="this.form.submit()" class="form-control">
+                                    <option value="">Durum Seçiniz</option>
+                                    <option @if (request()->get('status') == 'publish') @endif value="publish">Aktif</option>
+                                    <option @if (request()->get('status') == 'passive') @endif value="passive">Pasif</option>
+                                    <option @if (request()->get('status') == 'draft') @endif value="draft">Taslak</option>
+                                </select>
+                            </div>
+                            @if (request()->get('title') || request()->get('status'))
+                            <div class="col-md-2">
+                                <a href="{{route('quizzes.index')}}" class="btn btn-secondary">Sıfırla</a>
+                            </div>
+                            @endif
+                        </div>
+                    </form>
                     <div class="table-responsive mt-4">
                         <table class="table table-bordered">
                             <thead>
@@ -53,7 +74,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$quizzes->links()}}
+                        {{$quizzes->withQueryString()->links()}}
                     </div>
                 </h5>
             </div>

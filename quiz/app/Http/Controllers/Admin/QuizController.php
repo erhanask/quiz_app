@@ -18,7 +18,17 @@ class QuizController extends Controller
     public function index()
     {
 
-        $quizzes = Quiz::withCount('question')->paginate(5);
+        $quizzes = Quiz::withCount('question');
+
+        if (request()->get('title')) {
+            $quizzes->where('title','LIKE','%'.request()->get('title').'%');
+        }
+        if (request()->get('status')) {
+            $quizzes->where('status',request()->get('status'));
+        }   
+
+        $quizzes = $quizzes->paginate(5);
+
         return view("admin.quiz.list",compact("quizzes"));
     }
 
@@ -79,7 +89,6 @@ class QuizController extends Controller
         $quiz = Quiz::find($id) ?? abort(404,"Quiz Bulunamadı.");
         Quiz::where("id",$id)->update($request->except(['_method','_token']));
         return redirect()->route("quizzes.index")->withSuccess("Quiz Başarıyla Güncellendi.");
-
     }
 
     /**
