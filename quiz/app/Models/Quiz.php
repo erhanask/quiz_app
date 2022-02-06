@@ -17,6 +17,7 @@ class Quiz extends Model
         'title',
         'description',
         'finished',
+        'status',
         'slug'
     ];
 
