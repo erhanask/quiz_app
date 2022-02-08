@@ -18,6 +18,10 @@ class MainController extends Controller
         return view('quiz',compact('quiz'));
     }
 
+    public function result($slug){
+        return $slug;
+    }
+
     public function quiz_detail($slug){
         $quiz = Quiz::whereSlug($slug)->withCount('question')->first() ?? abort(404,"Quiz Bulunamadı.");
         return view('quiz_detail',compact('quiz'));

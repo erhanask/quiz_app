@@ -29,7 +29,7 @@
                                         <td>{{ $question->question }}</td>
                                         <td>
                                             @if ($question->image)
-                                                <a href="{{ $question->image }}" target="_blank" class="btn btn-sm btn-secondary">Görüntüle</a>
+                                                <a href="/{{ $question->image }}" target="_blank" class="btn btn-sm btn-secondary">Görüntüle</a>
                                             @else
                                             <button disabled class="btn btn-sm btn-light">Görüntüle</button>
                                             @endif                                            

@@ -27,7 +27,8 @@ Route::group(
     function () {
         Route::get('panel',[MainController::class,'dashboard'])->name('dashboard');
         Route::get('quiz/detay/{slug}',[MainController::class,'quiz_detail'])->name('quiz.detail');
-        Route::get('quiz/{slug}',[MainController::class,'quiz'])->name('quiz');
+        Route::get('quiz/{slug}',[MainController::class,'quiz'])->name('quiz.join');
+        Route::post('quiz/{slug}/result',[MainController::class,'result'])->name('quiz.result');
     }
 );
 

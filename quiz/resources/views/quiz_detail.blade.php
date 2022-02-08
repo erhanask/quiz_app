@@ -41,7 +41,7 @@
                         <div class="col-md-8">
                             {{$quiz->description}}
                             <div class="mt-3">
-                                <a href="{{ route('quiz',$quiz->slug) }}" class="btn btn-primary w-100">Quize Katıl</a>
+                                <a href="{{ route('quiz.join',$quiz->slug) }}" class="btn btn-primary w-100">Quize Katıl</a>
                             </div>
                         </div>
                     </div>
