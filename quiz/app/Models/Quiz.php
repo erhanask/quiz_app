@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+
 class Quiz extends Model
 {
     use HasFactory;
@@ -23,7 +24,29 @@ class Quiz extends Model
 
     protected $date = ['finished'];
 
-    public function getFinishedAttribute($date){
+    protected $appends = ['details'];
+
+
+    public function getDetailsAttribute()
+    {
+        return [
+            'average' => round($this->results()->avg('point')),
+            'join_count' => $this->results()->count()
+        ];
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
+    public function my_result()
+    {
+        return $this->hasOne(Result::class)->where('user_id', auth()->user()->id);
+    }
+
+    public function getFinishedAttribute($date)
+    {
         return $date ? Carbon::parse($date) : null;
     }
 
@@ -43,5 +66,4 @@ class Quiz extends Model
             ]
         ];
     }
-
 }

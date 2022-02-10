@@ -26,6 +26,13 @@ class MainController extends Controller
     {
         $quiz = Quiz::whereSlug($slug)->with('question')->first() ?? abort(404, "Quiz Bulunamadı.");
         $correct = 0;
+
+
+        if ($quiz->my_result) {
+            abort(404,"Quiz'e erişiminiz bulunmuyor.");
+        }
+
+
         foreach ($quiz->question as $question) {
             // echo  $question->id." - ".$question->correct_answer." ";
             Answers::create([
@@ -44,20 +51,19 @@ class MainController extends Controller
         $wrong = count($quiz->question) - $correct;
 
         Result::create([
-           'user_id' =>auth()->user()->id,
-           'quiz_id' => $quiz->id,
-           'point' => $point,
-           'correct' =>$correct,
-           'wrong' => $wrong 
+            'user_id' => auth()->user()->id,
+            'quiz_id' => $quiz->id,
+            'point' => $point,
+            'correct' => $correct,
+            'wrong' => $wrong
         ]);
 
-        return redirect()->route('quiz.detail',$quiz->slug)->withSuccess('Quiz Sonucunuz : '.$point);
-
+        return redirect()->route('quiz.detail', $quiz->slug)->withSuccess('Quiz Sonucunuz : ' . $point);
     }
 
     public function quiz_detail($slug)
     {
-        $quiz = Quiz::whereSlug($slug)->withCount('question')->first() ?? abort(404, "Quiz Bulunamadı.");
+        $quiz = Quiz::whereSlug($slug)->with(['my_result','results'])->withCount('question')->first() ?? abort(404, "Quiz Bulunamadı.");
         return view('quiz_detail', compact('quiz'));
     }
 }
