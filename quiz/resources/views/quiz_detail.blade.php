@@ -60,6 +60,26 @@
                             </li>
                             @endif
                         </ul>
+
+                        @if (count($quiz->topTen))                            
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <ul class="list-group">
+                                        @foreach ($quiz->topTen as $result)
+                                         <li class="list-group-item">
+                                            <strong>{{$loop->iteration}}</strong>
+                                            {{$result->user->name}}
+                                            <div class="badge bg-light text-dark text-right">{{$result->point}}</div>
+                                        </li>   
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+
                     </div>
                     <div class="col-md-8">
                         {{$quiz->description}}
