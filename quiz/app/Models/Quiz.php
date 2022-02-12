@@ -24,8 +24,18 @@ class Quiz extends Model
 
     protected $date = ['finished'];
 
-    protected $appends = ['details'];
+    protected $appends = ['details,my_rank'];
 
+    public function getMyRankAttribute()
+    {
+        $rank = 0;
+        foreach ($this->results()->orderByDesc('point')->get() as $result) {
+            $rank++;
+            if ($result->user_id == auth()->user()->id) {
+                return $rank;
+            }
+        }
+    }
 
     public function getDetailsAttribute()
     {
